@@ -1,0 +1,25 @@
+name: Notification-Service-CD
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Triggered ONLY by a successfully completed CI run on main.
+# Delegates all CD logic to the reusable common-cd.yml template in ci-templates.
+# ─────────────────────────────────────────────────────────────────────────────
+on:
+  workflow_run:
+    workflows: ["Loan Service CI"]
+    types: [completed]
+    branches: [main]
+
+jobs:
+  deploy:
+    # Guard here — workflow_run context is NOT available inside a called reusable workflow.
+    # The called common-cd.yml cannot check this itself, so the caller must gate it.
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    uses: Area-51-Devops/ci-templates/.github/workflows/common-cd.yml@main
+    secrets:
+      APP_ID: ${{ secrets.APP_ID }}
+      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+      MANIFEST_REPO: ${{ secrets.MANIFEST_REPO }}
+    with:
+      service-name: "notification-service"
+      ci-workflow-name: "Loan Service CI"

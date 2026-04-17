@@ -1,4 +1,4 @@
-name: Loan Service CI
+name: Notification Service CI
 
 on:
   push:
@@ -19,7 +19,7 @@ jobs:
       packages: read
     with:
       working_directory: "services/notification-service"
-      image_name: "notification-service"
+      image_name: "area51devops/notification-service"
       service-name: "notification-service"
       docker_context: "services"
       dockerfile_path: "notification-service/Dockerfile"
