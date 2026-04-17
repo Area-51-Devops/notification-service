@@ -6,7 +6,7 @@ name: Notification-Service-CD
 # ─────────────────────────────────────────────────────────────────────────────
 on:
   workflow_run:
-    workflows: ["Loan Service CI"]
+    workflows: ["Notification Service CI"]
     types: [completed]
     branches: [main]
 
@@ -22,4 +22,4 @@ jobs:
       MANIFEST_REPO: ${{ secrets.MANIFEST_REPO }}
     with:
       service-name: "notification-service"
-      ci-workflow-name: "Loan Service CI"
+      ci-workflow-name: "Notification Service CI"
