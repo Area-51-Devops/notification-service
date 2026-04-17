@@ -1,0 +1,38 @@
+name: Loan Service CI
+
+on:
+  push:
+    paths:
+      - 'services/notification-service/**'
+      - 'services/shared/**'
+  pull_request:
+    paths:
+      - 'services/notification-service/**'
+      - 'services/shared/**'
+  workflow_dispatch:
+
+jobs:
+  ci:
+    uses: Area-51-Devops/ci-templates/.github/workflows/common-ci.yml@main
+    permissions:
+      contents: write      
+      packages: read
+    with:
+      working_directory: "services/notification-service"
+      image_name: "notification-service"
+      service-name: "notification-service"
+      docker_context: "services"
+      dockerfile_path: "notification-service/Dockerfile"
+      run_build: false
+      sonar_project_key: "notification-service"
+    secrets:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      SMTP_HOST: ${{ secrets.SMTP_HOST }}
+      SMTP_PORT: ${{ secrets.SMTP_PORT }}
+      SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
+      SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+      EMAIL_TO: ${{ secrets.EMAIL_TO }}
