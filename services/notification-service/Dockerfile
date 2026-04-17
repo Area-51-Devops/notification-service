@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 # Upgrade all OS packages to latest patched versions.
 RUN apk update && apk upgrade --no-cache
 
-# Context is ./services, so copy paths must be relative to the services/ directory.
+# Context is ./services, so copy paths must be relative to the services/ directory
 COPY notification-service/package*.json ./
 RUN (npm ci --omit=dev || npm install --omit=dev) && \
   npm cache clean --force && \
